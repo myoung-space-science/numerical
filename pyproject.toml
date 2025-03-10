@@ -1,0 +1,21 @@
+[project]
+name = "numerical"
+version = "0.1.0"
+description = "A numerical tower for non-scalar objects"
+readme = "README.md"
+authors = [
+    { name = "Matthew Young", email = "myoung.space.science@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.2.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ipython>=9.0.2",
+]
