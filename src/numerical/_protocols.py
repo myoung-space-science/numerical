@@ -220,6 +220,7 @@ class Value(Complex, typing.Protocol):
     def __round__(self) -> typing.Self: ...
 
 
+@typing.runtime_checkable
 class Sequence(Complex, typing.Protocol):
     """Protocol for numerical sequences.
 
