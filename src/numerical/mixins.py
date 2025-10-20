@@ -104,42 +104,6 @@ class Complex(Algebraic):
         return unary(_operators.neg, self)
 
 
-class Value(Complex):
-    """Operator support for singular numerical objects."""
-
-    def __complex__(self) -> complex:
-        return unary(complex, self)
-
-    def __float__(self) -> float:
-        return unary(float, self)
-
-    def __int__(self) -> int:
-        return unary(int, self)
-
-    @mytype
-    def __round__(self) -> typing.Self:
-        return unary(_operators.round, self)
-
-
-class Sequence(Complex, typing.Generic[T]):
-    """Operator support for numerical sequences."""
-
-    def __contains__(self, x, /) -> bool:
-        return binary(_operators.contains, self, x)
-
-    def __len__(self) -> int:
-        return unary(_operators.len, self)
-
-    def __iter__(self):
-        return unary(_operators.iter, self)
-
-    def __getitem__(self, i: typing.SupportsIndex, /) -> T:
-        return binary(_operators.getitem, self, i)
-
-    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray:
-        return unary(numpy.array, self, *args, **kwargs)
-
-
 class Real(Comparable, Complex):
     """Operator support for real-valued numerical objects."""
 
@@ -162,5 +126,42 @@ class Real(Comparable, Complex):
     @mytype
     def __rmod__(self, other) -> typing.Self:
         return binary(_operators.mod, other, self)
+
+
+class Value(Comparable, Complex):
+    """Operator support for singular numerical objects."""
+
+    def __complex__(self) -> complex:
+        return unary(complex, self)
+
+    def __float__(self) -> float:
+        return unary(float, self)
+
+    def __int__(self) -> int:
+        return unary(int, self)
+
+    @mytype
+    def __round__(self) -> typing.Self:
+        return unary(_operators.round, self)
+
+
+class Sequence(Comparable, Complex, typing.Generic[T]):
+    """Operator support for numerical sequences."""
+
+    def __contains__(self, x, /) -> bool:
+        return binary(_operators.contains, self, x)
+
+    def __len__(self) -> int:
+        return unary(_operators.len, self)
+
+    def __iter__(self):
+        return unary(_operators.iter, self)
+
+    def __getitem__(self, i: typing.SupportsIndex, /) -> T:
+        return binary(_operators.getitem, self, i)
+
+    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray:
+        return unary(numpy.array, self, *args, **kwargs)
+
 
 
