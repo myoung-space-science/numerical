@@ -7,10 +7,12 @@ import operator
 import typing
 
 
+T = typing.TypeVar('T')
+
 class Operator:
     """Base class for enhanced operators."""
 
-    _DEFINED = {}
+    _DEFINED: dict[str, typing.Self] = {}
 
     def __new__(cls, *args):
         """Create or return a singleton instance."""
@@ -20,7 +22,7 @@ class Operator:
         cls._DEFINED[args] = instance
         return instance
 
-    def __init__(self, __f: typing.Callable, operation: str):
+    def __init__(self, __f: typing.Callable[..., T], operation: str):
         """Initialize a new instance."""
         self._f = __f
         self._operation = operation
