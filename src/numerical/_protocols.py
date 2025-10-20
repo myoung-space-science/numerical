@@ -148,7 +148,7 @@ class Algebraic(Additive, Multiplicative, typing.Protocol):
       exponentiation involve only constant, rational exponents. However, this
       protocol does not place any restrictions on the type of exponent.
     - This protocol differs from the `~Additive` and `~Multiplicative`
-      protocols, which require foward and reverse versions of their operators,
+      protocols, which require forward and reverse versions of their operators,
       by not requiring `__rpow__`. Doing so would imply that any algebraic
       object should be allowed as an exponent, which is not generally true. Of
       course, this doesn't prevent a concrete object from defining `__rpow__`.
@@ -191,74 +191,6 @@ class Complex(Algebraic, typing.Protocol):
 
 
 @typing.runtime_checkable
-class Value(Complex, typing.Protocol):
-    """Protocol for singular numerical objects.
-
-    Classes that implement this protocol must implement the `~Complex` protocol,
-    as well as the following methods
-
-    - `__complex__`, which must return an instance of `complex`
-    - `__float__`, which must return an instance of `float`
-    - `__int__`, which must return an instance of `int`
-    - `__round__`, which may return whatever type is appropriate to the class
-    """
-
-    __module__ = __package__
-
-    __slots__ = ()
-
-    @abc.abstractmethod
-    def __complex__(self) -> complex: ...
-
-    @abc.abstractmethod
-    def __float__(self) -> float: ...
-
-    @abc.abstractmethod
-    def __int__(self) -> int: ...
-
-    @abc.abstractmethod
-    def __round__(self) -> typing.Self: ...
-
-
-class Sequence(Complex, typing.Protocol):
-    """Protocol for numerical sequences.
-
-    Classes that implement this protocol must define the following methods
-
-    - `__contains__`, which should return a `bool`
-    - `__len__`, which should return an `int`
-    - `__iter__`, which should return an iterator over the value type
-    - `__getitem__`, which may return an appropriate value type
-    - `__array__`, which should return a `numpy.ndarray`
-
-    Notes
-    -----
-    This protocol is more restrictive than `collections.abc.Sequence`, which
-    only requires `__getitem__` and `__len__` in order to define additional
-    mixin methods that include `__contains__` and `__iter__`.
-    """
-
-    __module__ = __package__
-
-    __slots__ = ()
-
-    @abc.abstractmethod
-    def __contains__(self, v, /) -> bool: ...
-
-    @abc.abstractmethod
-    def __len__(self) -> int: ...
-
-    @abc.abstractmethod
-    def __iter__(self): ...
-
-    @abc.abstractmethod
-    def __getitem__(self, i, /) -> typing.Self: ...
-
-    @abc.abstractmethod
-    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray: ...
-
-
-@typing.runtime_checkable
 class Real(Comparable, Complex, typing.Protocol):
     """Protocol for real-valued numerical objects.
 
@@ -292,4 +224,74 @@ class Real(Comparable, Complex, typing.Protocol):
 
     @abc.abstractmethod
     def __rmod__(self, other) -> typing.Self: ...
+
+
+@typing.runtime_checkable
+class Value(Comparable, Complex, typing.Protocol):
+    """Protocol for singular numerical objects.
+
+    Classes that implement this protocol must implement the `~Comparable` and
+    `~Complex` protocols, as well as the following methods
+
+    - `__complex__`, which must return an instance of `complex`
+    - `__float__`, which must return an instance of `float`
+    - `__int__`, which must return an instance of `int`
+    - `__round__`, which may return whatever type is appropriate to the class
+    """
+
+    __module__ = __package__
+
+    __slots__ = ()
+
+    @abc.abstractmethod
+    def __complex__(self) -> complex: ...
+
+    @abc.abstractmethod
+    def __float__(self) -> float: ...
+
+    @abc.abstractmethod
+    def __int__(self) -> int: ...
+
+    @abc.abstractmethod
+    def __round__(self) -> typing.Self: ...
+
+
+@typing.runtime_checkable
+class Sequence(Comparable, Complex, typing.Protocol):
+    """Protocol for numerical sequences.
+
+    Classes that implement this protocol must implement the `~Comparable` and
+    `~Complex` protocols, as well as the following methods
+
+    - `__contains__`, which should return a `bool`
+    - `__len__`, which should return an `int`
+    - `__iter__`, which should return an iterator over the value type
+    - `__getitem__`, which may return an appropriate value type
+    - `__array__`, which should return a `numpy.ndarray`
+
+    Notes
+    -----
+    This protocol is more restrictive than `collections.abc.Sequence`, which
+    only requires `__getitem__` and `__len__` in order to define additional
+    mixin methods that include `__contains__` and `__iter__`.
+    """
+
+    __module__ = __package__
+
+    __slots__ = ()
+
+    @abc.abstractmethod
+    def __contains__(self, v, /) -> bool: ...
+
+    @abc.abstractmethod
+    def __len__(self) -> int: ...
+
+    @abc.abstractmethod
+    def __iter__(self): ...
+
+    @abc.abstractmethod
+    def __getitem__(self, i, /) -> typing.Self: ...
+
+    @abc.abstractmethod
+    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray: ...
 
