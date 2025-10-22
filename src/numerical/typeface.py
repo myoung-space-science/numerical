@@ -10,23 +10,17 @@ that other modules may simply access `typehelp.BestType`.
 """
 
 from typing import *
-import sys
+from typing_extensions import *
 
-if sys.version_info >= (3, 11):
-    from typing import Self
-else:
-    from typing_extensions import Self
-
-
-__all__ = [
-    "Self",
-]
+__all__ = ()
 
 def __getattr__(name: str) -> type:
     """Get a built-in type annotation."""
     try:
         attr = globals()[name]
     except KeyError as err:
-        raise AttributeError(f"No annotation for type {name}") from err
+        raise AttributeError(
+            f"Could not find a type annotation for {name!r}"
+        ) from err
     return attr
 
