@@ -11,7 +11,7 @@ from ._protocols import (
     Sequence,
     Value,
 )
-from ._types import Quantity
+from ._types import Object
 
 
 __all__ = [
@@ -23,7 +23,7 @@ __all__ = [
     Complex,
     Multiplicative,
     Orderable,
-    Quantity,
+    Object,
     Real,
     Sequence,
     Value,
