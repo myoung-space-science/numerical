@@ -6,77 +6,77 @@ import numpy
 import numerical
 
 
-QuantityType = typing.TypeVar('QuantityType', bound=numerical.Quantity)
+ObjectType = typing.TypeVar('ObjectType', bound=numerical.Object)
 
-class EqualityMixin(numerical.Quantity):
+class EqualityMixin(numerical.Object):
     """Mixin class that implements `__eq__` for testing."""
 
     def __eq__(self, other):
         """Called for self == other."""
-        if isinstance(other, numerical.Quantity):
+        if isinstance(other, numerical.Object):
             return self._data == other._data
         return self._data == other
 
 
 class Orderable(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Orderable,
     numerical.Orderable): ...
 
 
 class Comparable(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Comparable,
     numerical.Comparable): ...
 
 
 class Additive(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Additive,
     numerical.Additive): ...
 
 
 class Multiplicative(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Multiplicative,
     numerical.Multiplicative): ...
 
 
 class Algebraic(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Algebraic,
     numerical.Algebraic): ...
 
 
 class Complex(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Complex,
     numerical.Complex): ...
 
 
 class Real(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Real,
     numerical.Real): ...
 
 
 class Value(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Value,
     numerical.Value): ...
 
 
 class Sequence(
     EqualityMixin,
-    numerical.Quantity,
+    numerical.Object,
     numerical.mixins.Sequence,
     numerical.Sequence): ...
 
@@ -246,8 +246,8 @@ def test_real() -> None:
 
 
 def check_real(
-    a: QuantityType,
-    b: QuantityType,
+    a: ObjectType,
+    b: ObjectType,
     x: numbers.Number,
     y: numbers.Number,
 ) -> None:
@@ -274,8 +274,8 @@ def check_real(
 
 
 def check_complex(
-    a: QuantityType,
-    b: QuantityType,
+    a: ObjectType,
+    b: ObjectType,
     x: numbers.Number,
     y: numbers.Number,
 ) -> None:
@@ -293,8 +293,8 @@ def check_complex(
 
 
 def check_multiplicative(
-    a: QuantityType,
-    b: QuantityType,
+    a: ObjectType,
+    b: ObjectType,
     x: numbers.Number,
     y: numbers.Number,
 ) -> None:

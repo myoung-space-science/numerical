@@ -4,8 +4,21 @@ import typing
 T = typing.TypeVar('T')
 
 
-class Quantity(typing.Generic[T]):
-    """The base for all numerical types."""
+@typing.runtime_checkable
+class Quantity(typing.Protocol[T]):
+    """Protocol for numerical types.
+
+    A numerical quantity is the simplest numerical type. It defines a single
+    `_data` attribute. You can use this class in instance checks to determine
+    whether or not to expect an object to behave consistently with formal
+    numeric objects (i.e., instances of `~Object`).
+    """
+
+    _data: T
+
+
+class Object(typing.Generic[T]):
+    """The base for all concrete numerical types."""
 
     def __init__(self, data: T):
         self._data = data
