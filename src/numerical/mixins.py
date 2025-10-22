@@ -1,5 +1,3 @@
-import typing
-
 import numpy
 import numpy.typing
 
@@ -9,9 +7,10 @@ from ._operations import (
     binary,
     mytype,
 )
+from . import typeface
 
 
-T = typing.TypeVar('T')
+T = typeface.TypeVar('T')
 
 
 class Orderable:
@@ -44,19 +43,19 @@ class Additive:
     """Operator support for additive numerical objects."""
 
     @mytype
-    def __add__(self, other) -> typing.Self:
+    def __add__(self, other) -> typeface.Self:
         return binary(_operators.add, self, other)
 
     @mytype
-    def __radd__(self, other) -> typing.Self:
+    def __radd__(self, other) -> typeface.Self:
         return binary(_operators.add, other, self)
 
     @mytype
-    def __sub__(self, other) -> typing.Self:
+    def __sub__(self, other) -> typeface.Self:
         return binary(_operators.sub, self, other)
 
     @mytype
-    def __rsub__(self, other) -> typing.Self:
+    def __rsub__(self, other) -> typeface.Self:
         return binary(_operators.sub, other, self)
 
 
@@ -64,19 +63,19 @@ class Multiplicative:
     """Operator support for multiplicative numerical objects."""
 
     @mytype
-    def __mul__(self, other) -> typing.Self:
+    def __mul__(self, other) -> typeface.Self:
         return binary(_operators.mul, self, other)
 
     @mytype
-    def __rmul__(self, other) -> typing.Self:
+    def __rmul__(self, other) -> typeface.Self:
         return binary(_operators.mul, other, self)
 
     @mytype
-    def __truediv__(self, other) -> typing.Self:
+    def __truediv__(self, other) -> typeface.Self:
         return binary(_operators.truediv, self, other)
 
     @mytype
-    def __rtruediv__(self, other) -> typing.Self:
+    def __rtruediv__(self, other) -> typeface.Self:
         return binary(_operators.truediv, other, self)
 
 
@@ -84,7 +83,7 @@ class Algebraic(Additive, Multiplicative):
     """Operator support for algebraic numerical objects."""
 
     @mytype
-    def __pow__(self, other, mod: int | None = None) -> typing.Self:
+    def __pow__(self, other, mod: int | None = None) -> typeface.Self:
         return binary(_operators.pow, self, other, mod=mod)
 
 
@@ -92,15 +91,15 @@ class Complex(Algebraic):
     """Operator support for complex-valued numerical objects."""
 
     @mytype
-    def __abs__(self) -> typing.Self:
+    def __abs__(self) -> typeface.Self:
         return unary(_operators.abs, self)
 
     @mytype
-    def __pos__(self) -> typing.Self:
+    def __pos__(self) -> typeface.Self:
         return unary(_operators.pos, self)
 
     @mytype
-    def __neg__(self) -> typing.Self:
+    def __neg__(self) -> typeface.Self:
         return unary(_operators.neg, self)
 
 
@@ -108,23 +107,23 @@ class Real(Comparable, Complex):
     """Operator support for real-valued numerical objects."""
 
     @mytype
-    def __rpow__(self, other, mod: int | None = None) -> typing.Self:
+    def __rpow__(self, other, mod: int | None = None) -> typeface.Self:
         return binary(_operators.pow, other, self, mod=mod)
 
     @mytype
-    def __floordiv__(self, other) -> typing.Self:
+    def __floordiv__(self, other) -> typeface.Self:
         return binary(_operators.floordiv, self, other)
 
     @mytype
-    def __rfloordiv__(self, other) -> typing.Self:
+    def __rfloordiv__(self, other) -> typeface.Self:
         return binary(_operators.floordiv, other, self)
 
     @mytype
-    def __mod__(self, other) -> typing.Self:
+    def __mod__(self, other) -> typeface.Self:
         return binary(_operators.mod, self, other)
 
     @mytype
-    def __rmod__(self, other) -> typing.Self:
+    def __rmod__(self, other) -> typeface.Self:
         return binary(_operators.mod, other, self)
 
 
@@ -141,11 +140,11 @@ class Value(Comparable, Complex):
         return unary(int, self)
 
     @mytype
-    def __round__(self) -> typing.Self:
+    def __round__(self) -> typeface.Self:
         return unary(_operators.round, self)
 
 
-class Sequence(Comparable, Complex, typing.Generic[T]):
+class Sequence(Comparable, Complex, typeface.Generic[T]):
     """Operator support for numerical sequences."""
 
     def __contains__(self, x, /) -> bool:
@@ -157,7 +156,7 @@ class Sequence(Comparable, Complex, typing.Generic[T]):
     def __iter__(self):
         return unary(_operators.iter, self)
 
-    def __getitem__(self, i: typing.SupportsIndex, /) -> T:
+    def __getitem__(self, i: typeface.SupportsIndex, /) -> T:
         return binary(_operators.getitem, self, i)
 
     def __array__(self, *args, **kwargs) -> numpy.typing.NDArray:

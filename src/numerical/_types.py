@@ -1,11 +1,11 @@
-import typing
+from . import typeface
 
 
-T = typing.TypeVar('T')
+T = typeface.TypeVar('T')
 
 
-@typing.runtime_checkable
-class Quantity(typing.Protocol[T]):
+@typeface.runtime_checkable
+class Quantity(typeface.Protocol[T]):
     """Protocol for numerical types.
 
     A numerical quantity is the simplest numerical type. It defines a single
@@ -17,7 +17,7 @@ class Quantity(typing.Protocol[T]):
     _data: T
 
 
-class Object(typing.Generic[T]):
+class Object(typeface.Generic[T]):
     """The base for all concrete numerical types."""
 
     def __init__(self, data: T):

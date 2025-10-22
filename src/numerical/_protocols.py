@@ -1,15 +1,16 @@
 import abc
-import typing
 
 import numpy
 import numpy.typing
 
+from . import typeface
 
-T = typing.TypeVar('T')
+
+T = typeface.TypeVar('T')
 
 
-@typing.runtime_checkable
-class Orderable(typing.Protocol):
+@typeface.runtime_checkable
+class Orderable(typeface.Protocol):
     """Protocol for objects that support relative ordering.
 
     Classes that implement this protocol must define the following methods
@@ -40,8 +41,8 @@ class Orderable(typing.Protocol):
     def __ge__(self, other): ...
 
 
-@typing.runtime_checkable
-class Comparable(Orderable, typing.Protocol):
+@typeface.runtime_checkable
+class Comparable(Orderable, typeface.Protocol):
     """Protocol for orderable objects that also support equality operations.
 
     Classes that implement this protocol must implement the `~Orderable`
@@ -65,8 +66,8 @@ class Comparable(Orderable, typing.Protocol):
     def __ne__(self, other): ...
 
 
-@typing.runtime_checkable
-class Additive(typing.Protocol):
+@typeface.runtime_checkable
+class Additive(typeface.Protocol):
     """Protocol for additive objects.
 
     Classes that implement this protocol must define the following methods
@@ -84,20 +85,20 @@ class Additive(typing.Protocol):
     __slots__ = ()
 
     @abc.abstractmethod
-    def __add__(self, other) -> typing.Self: ...
+    def __add__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __radd__(self, other) -> typing.Self: ...
+    def __radd__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __sub__(self, other) -> typing.Self: ...
+    def __sub__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __rsub__(self, other) -> typing.Self: ...
+    def __rsub__(self, other) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Multiplicative(typing.Protocol):
+@typeface.runtime_checkable
+class Multiplicative(typeface.Protocol):
     """Protocol for multiplicative objects.
 
     Classes that implement this protocol must define the following methods
@@ -122,20 +123,20 @@ class Multiplicative(typing.Protocol):
     __slots__ = ()
 
     @abc.abstractmethod
-    def __mul__(self, other) -> typing.Self: ...
+    def __mul__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __rmul__(self, other) -> typing.Self: ...
+    def __rmul__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __truediv__(self, other) -> typing.Self: ...
+    def __truediv__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __rtruediv__(self, other) -> typing.Self: ...
+    def __rtruediv__(self, other) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Algebraic(Additive, Multiplicative, typing.Protocol):
+@typeface.runtime_checkable
+class Algebraic(Additive, Multiplicative, typeface.Protocol):
     """Protocol for algebraic objects.
 
     Classes that implement this protocol must implement the `~Additive` and
@@ -159,11 +160,11 @@ class Algebraic(Additive, Multiplicative, typing.Protocol):
     __slots__ = ()
 
     @abc.abstractmethod
-    def __pow__(self, other) -> typing.Self: ...
+    def __pow__(self, other) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Complex(Algebraic, typing.Protocol):
+@typeface.runtime_checkable
+class Complex(Algebraic, typeface.Protocol):
     """Protocol for complex-valued objects.
 
     Classes that implement this protocol must implement the `~Algebraic`
@@ -181,17 +182,17 @@ class Complex(Algebraic, typing.Protocol):
     __slots__ = ()
 
     @abc.abstractmethod
-    def __abs__(self) -> typing.Self: ...
+    def __abs__(self) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __pos__(self) -> typing.Self: ...
+    def __pos__(self) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __neg__(self) -> typing.Self: ...
+    def __neg__(self) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Real(Comparable, Complex, typing.Protocol):
+@typeface.runtime_checkable
+class Real(Comparable, Complex, typeface.Protocol):
     """Protocol for real-valued numerical objects.
 
     Classes that implement this protocol must implement the `~Comparable` and
@@ -211,23 +212,23 @@ class Real(Comparable, Complex, typing.Protocol):
     __slots__ = ()
 
     @abc.abstractmethod
-    def __rpow__(self, other) -> typing.Self: ...
+    def __rpow__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __floordiv__(self, other) -> typing.Self: ...
+    def __floordiv__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __rfloordiv__(self, other) -> typing.Self: ...
+    def __rfloordiv__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __mod__(self, other) -> typing.Self: ...
+    def __mod__(self, other) -> typeface.Self: ...
 
     @abc.abstractmethod
-    def __rmod__(self, other) -> typing.Self: ...
+    def __rmod__(self, other) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Value(Comparable, Complex, typing.Protocol):
+@typeface.runtime_checkable
+class Value(Comparable, Complex, typeface.Protocol):
     """Protocol for singular numerical objects.
 
     Classes that implement this protocol must implement the `~Comparable` and
@@ -253,11 +254,11 @@ class Value(Comparable, Complex, typing.Protocol):
     def __int__(self) -> int: ...
 
     @abc.abstractmethod
-    def __round__(self) -> typing.Self: ...
+    def __round__(self) -> typeface.Self: ...
 
 
-@typing.runtime_checkable
-class Sequence(Comparable, Complex, typing.Protocol):
+@typeface.runtime_checkable
+class Sequence(Comparable, Complex, typeface.Protocol):
     """Protocol for numerical sequences.
 
     Classes that implement this protocol must implement the `~Comparable` and
@@ -290,7 +291,7 @@ class Sequence(Comparable, Complex, typing.Protocol):
     def __iter__(self): ...
 
     @abc.abstractmethod
-    def __getitem__(self, i, /) -> typing.Self: ...
+    def __getitem__(self, i, /) -> typeface.Self: ...
 
     @abc.abstractmethod
     def __array__(self, *args, **kwargs) -> numpy.typing.NDArray: ...

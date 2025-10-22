@@ -4,15 +4,16 @@ A namespace for standard numerical operators.
 
 import builtins
 import operator
-import typing
+
+from . import typeface
 
 
-T = typing.TypeVar('T')
+T = typeface.TypeVar('T')
 
 class Operator:
     """Base class for enhanced operators."""
 
-    _DEFINED: dict[str, typing.Self] = {}
+    _DEFINED: dict[str, typeface.Self] = {}
 
     def __new__(cls, *args):
         """Create or return a singleton instance."""
@@ -22,7 +23,7 @@ class Operator:
         cls._DEFINED[args] = instance
         return instance
 
-    def __init__(self, __f: typing.Callable[..., T], operation: str):
+    def __init__(self, __f: typeface.Callable[..., T], operation: str):
         """Initialize a new instance."""
         self._f = __f
         self._operation = operation

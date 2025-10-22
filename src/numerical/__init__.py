@@ -11,7 +11,10 @@ from ._protocols import (
     Sequence,
     Value,
 )
-from ._types import Object
+from ._types import (
+    Object,
+    Quantity,
+)
 
 
 __all__ = [
@@ -24,6 +27,7 @@ __all__ = [
     Multiplicative,
     Orderable,
     Object,
+    Quantity,
     Real,
     Sequence,
     Value,
