@@ -81,10 +81,16 @@ class Sequence(
     numerical.Sequence): ...
 
 
-class Scalar(Value, numerical.mixins.NumpyMixin): ...
+class Scalar(Value, numerical.mixins.NumpyMixin):
+    def _apply_ufunc(self, ufunc, method, *args, **kwargs):
+        data = super()._apply_ufunc(ufunc, method, *args, **kwargs)
+        return type(self)(data)
 
 
-class Array(Sequence, numerical.mixins.NumpyMixin): ...
+class Array(Sequence, numerical.mixins.NumpyMixin):
+    def _apply_ufunc(self, ufunc, method, *args, **kwargs):
+        data = super()._apply_ufunc(ufunc, method, *args, **kwargs)
+        return type(self)(data)
 
 
 def test_types():
@@ -255,10 +261,14 @@ def test_numpy() -> None:
     """Test support for numpy functions."""
     x = 4.0
     s = Scalar(x)
-    assert numpy.all(numpy.sqrt(s) == Scalar(numpy.sqrt(x)))
+    sqrts = numpy.sqrt(s)
+    assert isinstance(sqrts, Scalar)
+    assert numpy.all(sqrts == Scalar(numpy.sqrt(x)))
     y = numpy.array([4.0, 9.0])
     a = Array(y)
-    assert numpy.all(numpy.sqrt(a) == Array(numpy.sqrt(y)))
+    sqrta = numpy.sqrt(a)
+    assert isinstance(sqrta, Array)
+    assert numpy.all(sqrta == Array(numpy.sqrt(y)))
 
 
 def check_real(
