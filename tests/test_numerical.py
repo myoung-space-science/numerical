@@ -21,64 +21,70 @@ class EqualityMixin(numerical.Object):
 class Orderable(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Orderable,
+    numerical.mixins.OrderableMixin,
     numerical.Orderable): ...
 
 
 class Comparable(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Comparable,
+    numerical.mixins.ComparableMixin,
     numerical.Comparable): ...
 
 
 class Additive(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Additive,
+    numerical.mixins.AdditiveMixin,
     numerical.Additive): ...
 
 
 class Multiplicative(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Multiplicative,
+    numerical.mixins.MultiplicativeMixin,
     numerical.Multiplicative): ...
 
 
 class Algebraic(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Algebraic,
+    numerical.mixins.AlgebraicMixin,
     numerical.Algebraic): ...
 
 
 class Complex(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Complex,
+    numerical.mixins.ComplexMixin,
     numerical.Complex): ...
 
 
 class Real(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Real,
+    numerical.mixins.RealMixin,
     numerical.Real): ...
 
 
 class Value(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Value,
+    numerical.mixins.ValueMixin,
     numerical.Value): ...
 
 
 class Sequence(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Sequence,
+    numerical.mixins.SequenceMixin,
     numerical.Sequence): ...
+
+
+class Scalar(Value, numerical.mixins.NumpyMixin): ...
+
+
+class Array(Sequence, numerical.mixins.NumpyMixin): ...
 
 
 def test_types():
@@ -243,6 +249,16 @@ def test_real() -> None:
     y = 3
     b = Real(y)
     check_real(a, b, x, y)
+
+
+def test_numpy() -> None:
+    """Test support for numpy functions."""
+    x = 4.0
+    s = Scalar(x)
+    assert numpy.all(numpy.sqrt(s) == Scalar(numpy.sqrt(x)))
+    y = numpy.array([4.0, 9.0])
+    a = Array(y)
+    assert numpy.all(numpy.sqrt(a) == Array(numpy.sqrt(y)))
 
 
 def check_real(

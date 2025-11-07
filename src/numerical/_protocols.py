@@ -1,4 +1,5 @@
 import abc
+import numbers
 
 import numpy
 import numpy.typing
@@ -257,8 +258,12 @@ class Value(Comparable, Complex, typeface.Protocol):
     def __round__(self) -> typeface.Self: ...
 
 
+DT = typeface.TypeVar('DT', bound=numbers.Real)
+
+AT = typeface.TypeVar('AT', numpy.integer, numpy.floating)
+
 @typeface.runtime_checkable
-class Sequence(Comparable, Complex, typeface.Protocol):
+class Sequence(Comparable, Complex, typeface.Protocol[DT]):
     """Protocol for numerical sequences.
 
     Classes that implement this protocol must implement the `~Comparable` and
@@ -291,8 +296,8 @@ class Sequence(Comparable, Complex, typeface.Protocol):
     def __iter__(self): ...
 
     @abc.abstractmethod
-    def __getitem__(self, i, /) -> typeface.Self: ...
+    def __getitem__(self, i, /) -> DT | typeface.Sequence[DT]: ...
 
     @abc.abstractmethod
-    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray: ...
+    def __array__(self, *args, **kwargs) -> numpy.typing.NDArray[AT]: ...
 
