@@ -81,6 +81,12 @@ class Sequence(
     numerical.Sequence): ...
 
 
+class Scalar(Value, numerical.mixins.NumpyMixin): ...
+
+
+class Array(Sequence, numerical.mixins.NumpyMixin): ...
+
+
 def test_types():
     """Make sure instances pass instance checks."""
     x = 2
@@ -243,6 +249,16 @@ def test_real() -> None:
     y = 3
     b = Real(y)
     check_real(a, b, x, y)
+
+
+def test_numpy() -> None:
+    """Test support for numpy functions."""
+    x = 4.0
+    s = Scalar(x)
+    assert numpy.all(numpy.sqrt(s) == Scalar(numpy.sqrt(x)))
+    y = numpy.array([4.0, 9.0])
+    a = Array(y)
+    assert numpy.all(numpy.sqrt(a) == Array(numpy.sqrt(y)))
 
 
 def check_real(
