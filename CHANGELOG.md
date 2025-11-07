@@ -1,5 +1,8 @@
 ## NEXT
 
+- Add `NumpyMixin` class
+- Append `Mixin` to remaining mixin classes
+
 ## v0.2.0 (22Oct2025)
 
 - Full working implementation with tests.
