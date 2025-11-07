@@ -20,7 +20,7 @@ from ._types import (
 T = typeface.TypeVar('T')
 
 
-class Orderable:
+class OrderableMixin:
     """Operator support for orderable numerical quantities."""
 
     def __lt__(self, other):
@@ -36,7 +36,7 @@ class Orderable:
         return binary(_operators.ge, self, other)
 
 
-class Comparable(Orderable):
+class ComparableMixin(OrderableMixin):
     """Operator support for comparable numerical quantities."""
 
     def __eq__(self, other):
@@ -46,7 +46,7 @@ class Comparable(Orderable):
         return binary(_operators.ne, self, other)
 
 
-class Additive:
+class AdditiveMixin:
     """Operator support for additive numerical objects."""
 
     @mytype
@@ -66,7 +66,7 @@ class Additive:
         return binary(_operators.sub, other, self)
 
 
-class Multiplicative:
+class MultiplicativeMixin:
     """Operator support for multiplicative numerical objects."""
 
     @mytype
@@ -86,7 +86,7 @@ class Multiplicative:
         return binary(_operators.truediv, other, self)
 
 
-class Algebraic(Additive, Multiplicative):
+class AlgebraicMixin(AdditiveMixin, MultiplicativeMixin):
     """Operator support for algebraic numerical objects."""
 
     @mytype
@@ -94,7 +94,7 @@ class Algebraic(Additive, Multiplicative):
         return binary(_operators.pow, self, other, mod=mod)
 
 
-class Complex(Algebraic):
+class ComplexMixin(AlgebraicMixin):
     """Operator support for complex-valued numerical objects."""
 
     @mytype
@@ -110,7 +110,7 @@ class Complex(Algebraic):
         return unary(_operators.neg, self)
 
 
-class Real(Comparable, Complex):
+class RealMixin(ComparableMixin, ComplexMixin):
     """Operator support for real-valued numerical objects."""
 
     @mytype
@@ -134,7 +134,7 @@ class Real(Comparable, Complex):
         return binary(_operators.mod, other, self)
 
 
-class Value(Comparable, Complex):
+class ValueMixin(ComparableMixin, ComplexMixin):
     """Operator support for singular numerical objects."""
 
     def __complex__(self) -> complex:
@@ -151,7 +151,7 @@ class Value(Comparable, Complex):
         return unary(_operators.round, self)
 
 
-class Sequence(Comparable, Complex, typeface.Generic[T]):
+class SequenceMixin(ComparableMixin, ComplexMixin, typeface.Generic[T]):
     """Operator support for numerical sequences."""
 
     def __contains__(self, x, /) -> bool:

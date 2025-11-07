@@ -21,63 +21,63 @@ class EqualityMixin(numerical.Object):
 class Orderable(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Orderable,
+    numerical.mixins.OrderableMixin,
     numerical.Orderable): ...
 
 
 class Comparable(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Comparable,
+    numerical.mixins.ComparableMixin,
     numerical.Comparable): ...
 
 
 class Additive(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Additive,
+    numerical.mixins.AdditiveMixin,
     numerical.Additive): ...
 
 
 class Multiplicative(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Multiplicative,
+    numerical.mixins.MultiplicativeMixin,
     numerical.Multiplicative): ...
 
 
 class Algebraic(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Algebraic,
+    numerical.mixins.AlgebraicMixin,
     numerical.Algebraic): ...
 
 
 class Complex(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Complex,
+    numerical.mixins.ComplexMixin,
     numerical.Complex): ...
 
 
 class Real(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Real,
+    numerical.mixins.RealMixin,
     numerical.Real): ...
 
 
 class Value(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Value,
+    numerical.mixins.ValueMixin,
     numerical.Value): ...
 
 
 class Sequence(
     EqualityMixin,
     numerical.Object,
-    numerical.mixins.Sequence,
+    numerical.mixins.SequenceMixin,
     numerical.Sequence): ...
 
 
