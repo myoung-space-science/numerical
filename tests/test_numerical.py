@@ -81,10 +81,54 @@ class Sequence(
     numerical.Sequence): ...
 
 
-class Scalar(Value, numerical.mixins.NumpyMixin): ...
+class Scalar(Value, numerical.mixins.NumpyMixin):
+    def _apply_ufunc(self, ufunc, method, *args, **kwargs):
+        data = super()._apply_ufunc(ufunc, method, *args, **kwargs)
+        if isinstance(data, (list, tuple)):
+            r = [type(self)(array) for array in data]
+            if isinstance(data, tuple):
+                return tuple(r)
+            return r
+        return type(self)(data)
+
+    def _apply_function(self, func, types, args, kwargs):
+        data = super()._apply_function(func, types, args, kwargs)
+        if data is NotImplemented:
+            return data
+        if isinstance(data, (list, tuple)):
+            r = [type(self)(array) for array in data]
+            if isinstance(data, tuple):
+                return tuple(r)
+            return r
+        return type(self)(data)
+
+    def _get_numpy_array(self):
+        return numpy.array([self._data])
 
 
-class Array(Sequence, numerical.mixins.NumpyMixin): ...
+class Array(Sequence, numerical.mixins.NumpyMixin):
+    def _apply_ufunc(self, ufunc, method, *args, **kwargs):
+        data = super()._apply_ufunc(ufunc, method, *args, **kwargs)
+        if isinstance(data, (list, tuple)):
+            r = [type(self)(array) for array in data]
+            if isinstance(data, tuple):
+                return tuple(r)
+            return r
+        return type(self)(data)
+
+    def _apply_function(self, func, types, args, kwargs):
+        data = super()._apply_function(func, types, args, kwargs)
+        if data is NotImplemented:
+            return data
+        if isinstance(data, (list, tuple)):
+            r = [type(self)(array) for array in data]
+            if isinstance(data, tuple):
+                return tuple(r)
+            return r
+        return type(self)(data)
+
+    def _get_numpy_array(self):
+        return numpy.array(self._data)
 
 
 def test_types():
@@ -251,14 +295,40 @@ def test_real() -> None:
     check_real(a, b, x, y)
 
 
-def test_numpy() -> None:
-    """Test support for numpy functions."""
+def test_numpy_ufunc() -> None:
+    """Test support for numpy universal functions."""
     x = 4.0
     s = Scalar(x)
-    assert numpy.all(numpy.sqrt(s) == Scalar(numpy.sqrt(x)))
+    sqrt_s = numpy.sqrt(s)
+    assert isinstance(sqrt_s, Scalar)
+    assert numpy.all(sqrt_s == Scalar(numpy.sqrt(x)))
     y = numpy.array([4.0, 9.0])
     a = Array(y)
-    assert numpy.all(numpy.sqrt(a) == Array(numpy.sqrt(y)))
+    sqrt_a = numpy.sqrt(a)
+    assert isinstance(sqrt_a, Array)
+    assert numpy.all(sqrt_a == Array(numpy.sqrt(y)))
+
+
+def test_numpy_function() -> None:
+    """Test support for numpy public functions."""
+    x = 4.0
+    s = Scalar(x)
+    mean_s = numpy.mean(s)
+    assert isinstance(mean_s, Scalar)
+    assert numpy.all(mean_s == Scalar(numpy.mean(x)))
+    y = numpy.array([4.0, 9.0])
+    a = Array(y)
+    mean_a = numpy.mean(a)
+    assert isinstance(mean_a, Array)
+    assert numpy.all(mean_a == Array(numpy.mean(y)))
+    z = numpy.array([[4.0, 9.0], [-4.0, 18.0]])
+    b = Array(z)
+    grad_b = numpy.gradient(b)
+    assert isinstance(grad_b, tuple)
+    grad_z = numpy.gradient(z)
+    for array, expected in zip(grad_b, grad_z):
+        assert isinstance(array, Array)
+        assert numpy.all(array == expected)
 
 
 def check_real(

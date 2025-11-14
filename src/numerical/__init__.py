@@ -1,5 +1,9 @@
+from . import data
 from . import mixins
 from . import _operators as operators
+from ._exceptions import (
+    DataTypeError,
+)
 from ._protocols import (
     Additive,
     Algebraic,
@@ -18,8 +22,11 @@ from ._types import (
 
 
 __all__ = [
+    # Modules
+    data,
     mixins,
     operators,
+    # Protocol classes
     Additive,
     Algebraic,
     Comparable,
@@ -31,4 +38,6 @@ __all__ = [
     Real,
     Sequence,
     Value,
+    # Exception classes
+    DataTypeError,
 ]

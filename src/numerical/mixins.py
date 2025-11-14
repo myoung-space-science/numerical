@@ -173,7 +173,7 @@ class SequenceMixin(ComparableMixin, ComplexMixin, typeface.Generic[T]):
 UserFunction = collections.abc.Callable[..., T]
 
 class NumpyMixin:
-    """Mixin for adding support for `numpy` functions to numeric objects.
+    """Mixin for adding support for `numpy` functions to numerical objects.
     
     Classes that inherit from this class may implement support for `numpy`
     universal functions ("ufuncs"; e.g., `numpy.sqrt`) by overloading
