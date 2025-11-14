@@ -1,6 +1,6 @@
 [project]
 name = "numerical"
-version = "0.3.0"
+version = "0.4.0"
 description = "A numerical tower for non-scalar objects"
 readme = "README.md"
 authors = [

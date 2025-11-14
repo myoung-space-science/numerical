@@ -1,5 +1,7 @@
 ## NEXT
 
+## v0.4.0
+
 - Add `data` module
 - Add `DataTypeError` exception class
 
